@@ -19,9 +19,7 @@ const router = new Router({
             component:Home
         }
     ]
-<<<<<<< HEAD
-})
-=======
+    
 })
 //挂载路由导航守卫
 router.beforeEach((to, from, next)=>{
@@ -34,4 +32,3 @@ router.beforeEach((to, from, next)=>{
     next()
 })
 export default router
->>>>>>> login

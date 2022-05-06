@@ -65,6 +65,10 @@ export default {
           const res = await loginPost('login',this.loginForm)
           if(res.data.meta.status!==200) return this.$message.error('登录失败') 
           this.$message.success('登录成功')
+          //将token保存到session里面
+          window.sessionStorage.setItem('token',res.data.data.token);
+          //跳转页面
+          this.$router.push('/home')
         })
       }
     }

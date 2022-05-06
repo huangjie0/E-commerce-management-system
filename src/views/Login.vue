@@ -4,7 +4,7 @@
       <div class="login_box">
         <!-- 头像区域 -->
         <div class="portrait">
-          <img src="../assets/logo.png">
+          <img src="../assets/user.png">
         </div>
         <!-- 登录表单区域 -->
         <el-form ref="loginFormRef" label-width="0px" :model="loginForm" class="login_form" :rules="loginFormRules">
@@ -96,7 +96,7 @@ export default {
   justify-content: flex-end;
 }
 .login-container{
-  background-color: rgb(36, 66, 129);
+  background-color: cadetblue;
   height: 100%;
 }
 .login_box{

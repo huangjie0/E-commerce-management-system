@@ -28,7 +28,7 @@
 
 <script>
 
-import  {loginPost} from '../api/request.js'
+import loginPost from '../api/login/index'
 export default {
     name:'Login',
     data() {

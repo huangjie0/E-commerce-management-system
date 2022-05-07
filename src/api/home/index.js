@@ -5,6 +5,8 @@ const instance = axios.create({
 })
 // 添加请求拦截器
 instance.interceptors.request.use(function (config) {
+  // 在请求之前添加字段
+    config.headers.Authorization = window.sessionStorage.getItem('token')
     // 在发送请求之前做些什么
     return config;
   }, function (error) {
@@ -20,6 +22,6 @@ instance.interceptors.response.use(function (response) {
     // 对响应错误做点什么
     return Promise.reject(error);
   });
-export default function homePost(url,param){
-    return instance.post(url,param)
+export default function homeGet(url,param){
+    return instance.get(url,param)
 }

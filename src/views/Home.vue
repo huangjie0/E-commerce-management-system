@@ -11,13 +11,19 @@
     <!-- 页面主体部分 -->
     <el-container>
       <!-- 侧边栏 -->
+     
       <el-aside width="200px">
+         <div class="toggle-button" @click="toggleCollapse">
+          |||
+        </div>
           <!-- 侧边栏菜单区域 -->
         <el-menu
           background-color="#81c0c3"
           text-color="#fff"
           active-text-color="#409EFF"
           :unique-opened='true'
+          :collapse='iscollapse'
+          :collapse-transition='false'
         >
         <!-- 一级菜单 -->
           <el-submenu :index="item.id+''" v-for="item in menusList" :key="item.id">
@@ -60,6 +66,7 @@ export default {
         '102':'el-icon-tickets',
         '145':'el-icon-coin',
       },
+      iscollapse:false
     }
   },
   name:'Common',
@@ -75,6 +82,9 @@ export default {
     window.sessionStorage.clear();
     this.$router.push("/login");
   },
+  toggleCollapse(){
+    this.iscollapse=!this.iscollapse
+  }
   },
 };
 </script>
@@ -106,11 +116,22 @@ export default {
 }
 .el-aside {
   background-color: rgb(120, 186, 189);
+  .el-menu{
+    border-right: none;
+  }
 }
 .el-main {
   background-color: #e0e1e2;
 }
 .home-container {
   height: 100%;
+}
+.toggle-button{
+  background-color: aquamarine;
+  font-size: 10px;
+  line-height: 30px;
+  text-align: center;
+  color: white;
+  cursor: pointer;
 }
 </style>

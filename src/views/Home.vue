@@ -17,20 +17,21 @@
           background-color="#81c0c3"
           text-color="#fff"
           active-text-color="#409EFF"
+          :unique-opened='true'
         >
         <!-- 一级菜单 -->
           <el-submenu :index="item.id+''" v-for="item in menusList" :key="item.id">
             <!-- 一级菜单模板区域 -->
             <template slot="title">
               <!-- 图标1 -->
-              <i class="el-icon-location"></i>
+              <i :class="iconsObjs[item.id]"></i>
               <span>{{item.authName}}</span>
             </template>
             <!-- 二级菜单 -->
             <el-menu-item :index="subitem.id+''" v-for="subitem in item.children" :key="subitem.id">
               <template slot="title">
               <!-- 图标2 -->
-              <i class="el-icon-location"></i>
+              <i class="el-icon-menu"></i>
               <span>{{subitem.authName}}</span>
               </template>
             </el-menu-item>
@@ -51,14 +52,20 @@ export default {
   data() {
     return {
       //放置一级菜单
-      menusList:[]
+      menusList:[],
+      iconsObjs:{
+        '125':'el-icon-s-custom',
+        '103':'el-icon-date',
+        '101':'el-icon-folder-opened',
+        '102':'el-icon-tickets',
+        '145':'el-icon-coin',
+      },
     }
   },
   name:'Common',
   //在页面加载中发请求
   created(){
      homeGet('menus').then(res=>{
-       console.log(res)
       if(res.data.meta.status!==200) return this.$message.error(res.data.meta.msg)
       this.menusList=res.data.data
      })

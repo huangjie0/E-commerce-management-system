@@ -10,7 +10,7 @@
     <el-card class="box-card">
         <el-row :gutter="30">
             <el-col :span="8">
-                <el-input placeholder="请输入内容" v-model="input" class="input-with-select">
+                <el-input placeholder="请输入内容">
                     <el-button slot="append" icon="el-icon-search"></el-button>
                 </el-input>    
             </el-col>
@@ -20,6 +20,14 @@
                 </el-button>
             </el-col>
         </el-row>
+        <el-table :data="userList" stripe border>
+            <el-table-column label="姓名" prop="username"></el-table-column>
+            <el-table-column label="邮箱" prop="email"></el-table-column>
+            <el-table-column label="电话" prop="mobile"></el-table-column>
+            <el-table-column label="角色" prop="role_name"></el-table-column>
+            <el-table-column label="状态" prop="mg_state"></el-table-column>
+            <el-table-column label="操作"></el-table-column>
+        </el-table>
     </el-card>
   </div>
 </template>
@@ -35,7 +43,6 @@ export default {
                 pagenum:1,
                 pagesize:2
             },
-            input:'',
             userList:[],
             total:0
         }
@@ -45,11 +52,11 @@ export default {
             if(!res.data.meta.status==200) return this.$message.error('获取用户列表失败')
             this.userList=res.data.data.users
             this.total=res.data.data.total
+            console.log(res)
         })
     }
 }
 </script>
 
 <style lang='less' scoped>
-
 </style>

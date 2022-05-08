@@ -4,7 +4,7 @@ import router from './router/index'
 import './assets/css/common.css'
 //导入ui组件库，按需引入
 import {Form,FormItem,Input,Button,Message,Container,Aside,Main,Header,
-Menu,Submenu,MenuItem,Breadcrumb,BreadcrumbItem,Card,Row,Col} from 'element-ui';
+Menu,Submenu,MenuItem,Breadcrumb,BreadcrumbItem,Card,Row,Col,Table,TableColumn} from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 
 Vue.config.productionTip = false
@@ -25,6 +25,8 @@ Vue.use(BreadcrumbItem)
 Vue.use(Card)
 Vue.use(Row)
 Vue.use(Col)
+Vue.use(Table)
+Vue.use(TableColumn)
 
 Vue.prototype.$message=Message
 

@@ -12,7 +12,7 @@
     <el-container>
       <!-- 侧边栏 -->
      
-      <el-aside width="200px">
+      <el-aside :width="iscollapse ? '64px' :'200px'">
          <div class="toggle-button" @click="toggleCollapse">
           |||
         </div>
@@ -24,6 +24,8 @@
           :unique-opened='true'
           :collapse='iscollapse'
           :collapse-transition='false'
+          router
+          :default-active="activePath"
         >
         <!-- 一级菜单 -->
           <el-submenu :index="item.id+''" v-for="item in menusList" :key="item.id">
@@ -34,7 +36,8 @@
               <span>{{item.authName}}</span>
             </template>
             <!-- 二级菜单 -->
-            <el-menu-item :index="subitem.id+''" v-for="subitem in item.children" :key="subitem.id">
+            <el-menu-item :index="'/'+subitem.path" v-for="subitem in item.children" :key="subitem.id" 
+            @click="saveNavState('/'+subitem.path)">
               <template slot="title">
               <!-- 图标2 -->
               <i class="el-icon-menu"></i>
@@ -46,7 +49,7 @@
       </el-aside>
       <!-- 右边内容 -->
       <el-main>
-        1111
+        <router-view></router-view>
       </el-main>
     </el-container>
   </el-container>
@@ -66,7 +69,9 @@ export default {
         '102':'el-icon-tickets',
         '145':'el-icon-coin',
       },
-      iscollapse:false
+      iscollapse:false,
+      //被激活的链接储存起来
+      activePath:''
     }
   },
   name:'Common',
@@ -75,17 +80,21 @@ export default {
      homeGet('menus').then(res=>{
       if(res.data.meta.status!==200) return this.$message.error(res.data.meta.msg)
       this.menusList=res.data.data
-     })
+     }),
+     this.activePath=window.sessionStorage.getItem('activePath')
   },
   methods: {
-  logout() {
-    window.sessionStorage.clear();
-    this.$router.push("/login");
-  },
-  toggleCollapse(){
-    this.iscollapse=!this.iscollapse
-  }
-  },
+    saveNavState(activePath){
+      window.sessionStorage.setItem('activePath',activePath)
+    },
+    logout() {
+      window.sessionStorage.clear();
+      this.$router.push("/login");
+    },
+    toggleCollapse(){
+      this.iscollapse=!this.iscollapse
+    }
+    },
 };
 </script>
 

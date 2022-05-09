@@ -3,7 +3,7 @@
       <!-- 面包屑导航区 -->
     <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item><a href="/">用户管理</a></el-breadcrumb-item>
+        <el-breadcrumb-item>用户管理</el-breadcrumb-item>
         <el-breadcrumb-item>用户列表</el-breadcrumb-item>
     </el-breadcrumb>
     <!-- 卡片区域 -->
@@ -41,10 +41,11 @@ export default {
             queryInfo:{
                 query:'',
                 pagenum:1,
-                pagesize:2
+                pagesize:4
             },
             userList:[],
-            total:0
+            total:0,
+            border:true
         }
     },
     created(){
@@ -52,7 +53,6 @@ export default {
             if(!res.data.meta.status==200) return this.$message.error('获取用户列表失败')
             this.userList=res.data.data.users
             this.total=res.data.data.total
-            console.log(res)
         })
     }
 }

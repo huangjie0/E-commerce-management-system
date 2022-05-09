@@ -10,12 +10,12 @@
     <el-card class="box-card">
         <el-row :gutter="30">
             <el-col :span="8">
-                <el-input placeholder="请输入内容">
-                    <el-button slot="append" icon="el-icon-search"></el-button>
+                <el-input placeholder="请输入内容" v-model="queryInfo.query" clearable @clear="getUserList()">
+                    <el-button slot="append" icon="el-icon-search" @click="getUserList()"></el-button>
                 </el-input>    
             </el-col>
             <el-col :span="4">
-                <el-button type="primary">
+                <el-button type="primary" @click="dialogVisible=true">
                     添加用户
                 </el-button>
             </el-col>
@@ -28,7 +28,7 @@
             <el-table-column label="角色" prop="role_name"></el-table-column>
             <el-table-column label="状态">
                 <template slot-scope="scope">
-                    <el-switch v-model="scope.row.mg_state"></el-switch>
+                    <el-switch v-model="scope.row.mg_state" @change="userStateChange(scope.row)"></el-switch>
                 </template>
             </el-table-column>
             <el-table-column label="操作" width="180px">
@@ -52,11 +52,25 @@
         :total="total">
         </el-pagination>
     </el-card>
+    <!-- 添加用户提示 -->
+    <el-dialog
+    title="提示"
+    :visible.sync="dialogVisible"
+    width="50%">
+    <!-- 内容主体区 -->
+    <span>这是一段信息</span>
+    <!-- 底部区 -->
+    <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+    </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import userGet from '../api/Users/index'
+import {userGet} from '../api/Users/index'
+import {userPut} from '../api/Users/index'
 export default {
     name:'User',
     data() {
@@ -69,7 +83,9 @@ export default {
             },
             userList:[],
             total:0,
-            border:true
+            border:true,
+            //控制添加对话框的显示与隐藏
+            dialogVisible:false
         }
     },
     created(){
@@ -80,6 +96,13 @@ export default {
         })
     },
     methods:{
+        getUserList(){
+            userGet('users',{ params:this.queryInfo }).then(res=>{
+            if(!res.data.meta.status==200) return this.$message.error('获取用户列表失败')
+            this.userList=res.data.data.users
+            this.total=res.data.data.total
+        })
+        },
         //监听pagesize改变的时间
         handleSizeChange(newSize){
            this.queryInfo.pagesize=newSize
@@ -98,7 +121,17 @@ export default {
                 this.userList=res.data.data.users
                 this.total=res.data.data.total
             })
-        }
+        },
+        //监听开关状态改变
+        userStateChange(userinfo){
+            userPut(`users/${userinfo.id}/state/${userinfo.mg_state}`).then(res=>{
+                 if(!res.data.meta.status==200){
+                 userinfo.mg_state=!userinfo.mg_state
+                 return this.$message.error('更新用户状态失败')
+                 }
+                 this.$message.success('更新用户状态成功')
+            })
+        },
     },
 }
 </script>

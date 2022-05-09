@@ -23,6 +23,9 @@ instance.interceptors.response.use(function (response) {
     return Promise.reject(error);
   });
 
-export default function userGet(url,params){
+export function userGet(url,params){
     return instance.get(url,params)
+}
+export function userPut(url,data){
+    return instance.put(url,data)
 }

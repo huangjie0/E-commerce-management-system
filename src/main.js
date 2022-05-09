@@ -5,7 +5,7 @@ import './assets/css/common.css'
 //导入ui组件库，按需引入
 import {Form,FormItem,Input,Button,Message,Container,Aside,Main,Header,
 Menu,Submenu,MenuItem,Breadcrumb,BreadcrumbItem,Card,Row,Col,Table,
-TableColumn,Switch,Tooltip,Pagination} from 'element-ui';
+TableColumn,Switch,Tooltip,Pagination,Dialog} from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 
 Vue.config.productionTip = false
@@ -31,6 +31,7 @@ Vue.use(TableColumn)
 Vue.use(Switch)
 Vue.use(Tooltip)
 Vue.use(Pagination)
+Vue.use(Dialog)
 
 Vue.prototype.$message=Message
 

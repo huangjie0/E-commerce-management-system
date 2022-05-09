@@ -29,3 +29,6 @@ export function userGet(url,params){
 export function userPut(url,data){
     return instance.put(url,data)
 }
+export function userPost(url,data){
+  return instance.post(url,data)
+}

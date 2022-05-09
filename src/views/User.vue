@@ -56,7 +56,9 @@
     <el-dialog
     title="添加用户"
     :visible.sync="dialogVisible"
-    width="50%">
+    width="50%"
+    @close="addDialogClosed"
+    >
     <!-- 内容主体区 -->
     <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="70px">
         <el-form-item label="用户名" prop="username">
@@ -75,7 +77,7 @@
     <!-- 底部区 -->
     <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        <el-button type="primary" @click="addUser">确 定</el-button>
     </span>
     </el-dialog>
   </div>
@@ -84,6 +86,7 @@
 <script>
 import {userGet} from '../api/Users/index'
 import {userPut} from '../api/Users/index'
+import {userPost} from '../api/Users/index'
 export default {
     name:'User',
     data() {
@@ -152,6 +155,10 @@ export default {
         })
     },
     methods:{
+        //监听对话框关闭重置效果
+        addDialogClosed(){
+            this.$refs.addFormRef.resetFields()
+        },
         getUserList(){
             userGet('users',{ params:this.queryInfo }).then(res=>{
             if(!res.data.meta.status==200) return this.$message.error('获取用户列表失败')
@@ -188,6 +195,22 @@ export default {
                  this.$message.success('更新用户状态成功')
             })
         },
+        //点击按钮新增用户
+        addUser(){
+            this.$refs.addFormRef.validate(valid=>{
+                if(!valid) return
+                //可以发起请求
+                userPost('users',this.addForm).then(res=>{
+                    if(res.data.meta.status!==201) {
+                        this.$message.error('添加用户失败')
+                    }
+                    this.$message.success('添加用户成功')
+                    //添加成功后隐藏用户对话框
+                    this.dialogVisible=false
+                    this.getUserList()
+                })
+            })
+        }
     },
 }
 </script>

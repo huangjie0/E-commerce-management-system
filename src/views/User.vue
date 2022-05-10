@@ -34,7 +34,7 @@
             <el-table-column label="操作" width="180px">
                 <template slot-scope="scope">
                     <el-button type="primary" size="mini" icon="el-icon-edit" @click="showEditDialog(scope.row.id)"></el-button>
-                    <el-button type="danger" size="mini" icon="el-icon-delete" @click="showDeleteDialog()"></el-button>
+                    <el-button type="danger" size="mini" icon="el-icon-delete" @click="showDeleteDialog(scope.row.id)"></el-button>
                     <el-tooltip  effect="dark" content="分配角色" placement="top" :enterable='false'>
                          <el-button type="warning" size="mini" icon="el-icon-setting" @click="showDistributionDialog()"></el-button>
                     </el-tooltip>
@@ -207,7 +207,14 @@ export default {
             })
         },
         //展示删除对话框
-        showDeleteDialog(){
+        async showDeleteDialog(id){
+            //弹框询问
+            const res= await this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+            }).catch(err=>err)
+            //如果用户点击确定按钮confirm,取消是cancel
             
         },
         //展示设置对话框

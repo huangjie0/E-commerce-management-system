@@ -33,7 +33,7 @@
             </el-table-column>
             <el-table-column label="操作" width="180px">
                 <template slot-scope="scope">
-                    <el-button type="primary" size="mini" icon="el-icon-edit" @click="showEditDialog()"></el-button>
+                    <el-button type="primary" size="mini" icon="el-icon-edit" @click="showEditDialog(scope.row.id)"></el-button>
                     <el-button type="danger" size="mini" icon="el-icon-delete" @click="showDeleteDialog()"></el-button>
                     <el-tooltip  effect="dark" content="分配角色" placement="top" :enterable='false'>
                          <el-button type="warning" size="mini" icon="el-icon-setting" @click="showDistributionDialog()"></el-button>
@@ -80,11 +80,39 @@
         <el-button type="primary" @click="addUser">确 定</el-button>
     </span>
     </el-dialog>
+    <!-- 修改用户对话框 -->
+    <el-dialog
+    title="修改用户"
+    :visible.sync="editDialogVisible"
+    width="50%">
+        <!-- 修改用户的对话框 主页面-->
+        <el-form :model="editForm" :rules="editFormRules" ref="editFormRef" label-width="70px">
+            <el-form-item label="用户名">
+                <el-input v-model="editForm.username" disabled></el-input>
+            </el-form-item>
+        </el-form>
+        <!-- 邮箱验证 -->
+         <el-form :model="editForm" :rules="editFormRules" ref="editFormRef" label-width="70px">
+            <el-form-item label="邮箱" prop="email">
+                <el-input v-model="editForm.email"></el-input>
+            </el-form-item>
+        </el-form>
+        <!-- 手机号验证 -->
+         <el-form :model="editForm" :rules="editFormRules" ref="editFormRef" label-width="70px">
+            <el-form-item label="手机号" prop="mobile">
+                <el-input v-model="editForm.mobile"></el-input>
+            </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+            <el-button @click="editDialogVisible = false">取 消</el-button>
+            <el-button type="primary" @click="editDialogVisible = false">确 定</el-button>
+        </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import {userGet,userPut,userPost} from '../api/Users/index'
+import {userGet,userPut,userPost,userGetId} from '../api/Users/index'
 export default {
     name:'User',
     data() {
@@ -106,6 +134,8 @@ export default {
             cb(new Error('请输入合法的手机号'))
         }
         return {
+            //控制修改用户的显示与隐藏
+            editDialogVisible:false,
             queryInfo:{
                 query:'',
                 //当前的页数
@@ -143,6 +173,8 @@ export default {
                     {validator:checkMobile}
                 ]
             },
+            //查询到的用户对象
+            editForm:{}
         }
     },
     created(){
@@ -154,8 +186,12 @@ export default {
     },
     methods:{
         //展示编辑对话框
-        showEditDialog(){
-            
+        showEditDialog(id){
+            this.editDialogVisible=true
+            userGetId(`users/${id}`).then(res=>{
+               if(res.data.meta.status!==200) return this.$message.error('查询学生列表失败')
+                this.editForm = res.data.data
+            })
         },
         //展示删除对话框
         showDeleteDialog(){

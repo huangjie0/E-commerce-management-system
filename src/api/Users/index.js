@@ -32,3 +32,6 @@ export function userPut(url,data){
 export function userPost(url,data){
   return instance.post(url,data)
 }
+export function userGetId(url,params){
+  return instance.get(url,params)
+}

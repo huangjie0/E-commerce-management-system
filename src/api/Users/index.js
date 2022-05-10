@@ -23,15 +23,20 @@ instance.interceptors.response.use(function (response) {
     return Promise.reject(error);
   });
 
-export function userGet(url,params){
+function userGet(url,params){
     return instance.get(url,params)
 }
-export function userPut(url,data){
+function userPut(url,data){
     return instance.put(url,data)
 }
-export function userPost(url,data){
+function userPost(url,data){
   return instance.post(url,data)
 }
-export function userGetId(url,params){
+function userGetId(url,params){
   return instance.get(url,params)
 }
+//暴露编辑用户信息
+function userPutEdit(url,data){
+  return  instance.put(url,data)
+}
+export {userPut,userGet,userPost,userGetId,userPutEdit}

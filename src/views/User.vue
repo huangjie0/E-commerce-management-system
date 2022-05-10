@@ -277,7 +277,7 @@ export default {
         },
         //点击编辑确定按钮，来与检验表单验证
         editUserInfo(){
-            this.$refs.editFormRef.validate((valid)=>{
+            this.$refs.editFormRef.validate((valid=>{
                 if(!valid) return
                 //发起修改用户的消息
                 userPutEdit(`users/${this.editForm.id}`,{
@@ -285,8 +285,11 @@ export default {
                     mobile:this.editForm.mobile
                 }).then(res=>{
                     if(res.data.meta.status!==200) return this.$message.error('编辑用户失败')
+                    //将对话框关闭
                     this.editDialogVisible=false
+                    //重新调用获取函数
                     this.getUserList()
+                    //提示用户更新成功
                     this.$message.success('更新用户成功');
                 })
             })

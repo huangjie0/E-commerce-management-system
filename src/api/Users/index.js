@@ -22,7 +22,7 @@ instance.interceptors.response.use(function (response) {
     // 对响应错误做点什么
     return Promise.reject(error);
   });
-
+//定义暴露函数接口
 function userGet(url,params){
     return instance.get(url,params)
 }

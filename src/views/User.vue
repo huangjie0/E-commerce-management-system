@@ -208,7 +208,7 @@ export default {
         },
         //展示删除对话框
         showDeleteDialog(){
-           
+            
         },
         //展示设置对话框
         showDistributionDialog(){
@@ -277,7 +277,7 @@ export default {
         },
         //点击编辑确定按钮，来与检验表单验证
         editUserInfo(){
-            this.$refs.editFormRef.validate((valid=>{
+            this.$refs.editFormRef.validate((valid)=>{
                 if(!valid) return
                 //发起修改用户的消息
                 userPutEdit(`users/${this.editForm.id}`,{

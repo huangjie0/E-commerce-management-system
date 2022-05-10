@@ -33,10 +33,10 @@
             </el-table-column>
             <el-table-column label="操作" width="180px">
                 <template slot-scope="scope">
-                    <el-button type="primary" size="mini" icon="el-icon-edit"></el-button>
-                    <el-button type="danger" size="mini" icon="el-icon-delete"></el-button>
+                    <el-button type="primary" size="mini" icon="el-icon-edit" @click="showEditDialog()"></el-button>
+                    <el-button type="danger" size="mini" icon="el-icon-delete" @click="showDeleteDialog()"></el-button>
                     <el-tooltip  effect="dark" content="分配角色" placement="top" :enterable='false'>
-                         <el-button type="warning" size="mini" icon="el-icon-setting"></el-button>
+                         <el-button type="warning" size="mini" icon="el-icon-setting" @click="showDistributionDialog()"></el-button>
                     </el-tooltip>
                 </template>
             </el-table-column>
@@ -84,9 +84,7 @@
 </template>
 
 <script>
-import {userGet} from '../api/Users/index'
-import {userPut} from '../api/Users/index'
-import {userPost} from '../api/Users/index'
+import {userGet,userPut,userPost} from '../api/Users/index'
 export default {
     name:'User',
     data() {
@@ -155,6 +153,18 @@ export default {
         })
     },
     methods:{
+        //展示编辑对话框
+        showEditDialog(){
+            
+        },
+        //展示删除对话框
+        showDeleteDialog(){
+           
+        },
+        //展示设置对话框
+        showDistributionDialog(){
+            
+        },
         //监听对话框关闭重置效果
         addDialogClosed(){
             this.$refs.addFormRef.resetFields()
@@ -216,5 +226,4 @@ export default {
 </script>
 
 <style lang='less' scoped>
-
 </style>

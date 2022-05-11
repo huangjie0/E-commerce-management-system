@@ -21,32 +21,17 @@ instance.interceptors.response.use(function (response) {
   }, function (error) {
     // 对响应错误做点什么
     return Promise.reject(error);
-  });
-//定义暴露函数接口
-function userGet(url,params){
-    return instance.get(url,params)
-}
-function userPut(url,data){
-    return instance.put(url,data)
-}
-function userPost(url,data){
-  return instance.post(url,data)
-}
-function userGetId(url,params){
-  return instance.get(url,params)
-}
-//暴露编辑用户信息
-function userPutEdit(url,data){
-  return  instance.put(url,data)
-}
-//暴露删除用户信息
-function userDelete(url,data){
-  return instance.delete(url,data)
-}
-//暴露分配用户信息
-function userDistribution(url,data){
-  return instance.put(url,data)
-}
+});
+//roles函数
+function
 
 
-export {userPut,userGet,userPost,userGetId,userPutEdit,userDelete,userDistribution}
+
+
+
+
+
+
+
+
+export {}

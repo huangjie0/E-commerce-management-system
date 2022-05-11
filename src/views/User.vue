@@ -114,7 +114,8 @@
 </template>
 
 <script>
-import {userGet,userPut,userPost,userGetId,userPutEdit} from '../api/Users/index'
+import {userGet,userPut,userPost,
+userGetId,userPutEdit,userDelete,userDistribution} from '../api/Users/index'
 export default {
     name:'User',
     data() {
@@ -219,7 +220,7 @@ export default {
         },
         //展示设置对话框
         showDistributionDialog(){
-            
+            console.log('11111')
         },
         //监听对话框关闭重置效果
         addDialogClosed(){

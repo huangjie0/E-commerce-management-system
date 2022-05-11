@@ -215,7 +215,7 @@ export default {
             type: 'warning'
             }).catch(err=>err)
             //如果用户点击确定按钮confirm,取消是cancel
-            console.log(res)
+            console.log(res) 
         },
         //展示设置对话框
         showDistributionDialog(){

@@ -216,7 +216,16 @@ export default {
             type: 'warning'
             }).catch(err=>err)
             //如果用户点击确定按钮confirm,取消是cancel
-            console.log(res) 
+            if(res !== 'confirm'){
+                return this.$message.info('已取消删除')
+            } 
+            userDelete(`users/${id}`).then(res=>{
+               if(res.data.meta.status !==200){
+                   return this.$message.error('删除用户失败');
+               }
+               this.$message.success('删除用户成功!')
+               this.getUserList()
+            })
         },
         //展示设置对话框
         showDistributionDialog(){

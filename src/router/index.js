@@ -5,6 +5,7 @@ import Home from '../views/Home.vue'
 import Main from '../views/Main.vue'
 import User from '../views/User.vue'
 import Rights from '../views/Rights.vue'
+import Roles from '../views/Roles.vue'
 Vue.use(Router)
 
 const router = new Router({
@@ -34,11 +35,14 @@ const router = new Router({
                 {
                     path:'/rights',
                     component:Rights
+                },
+                {
+                    path:'/roles',
+                    component:Roles
                 }
             ]
         }
     ]
-    
 })
 //挂载路由导航守卫
 router.beforeEach((to, from, next)=>{

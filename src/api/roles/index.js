@@ -26,15 +26,7 @@ instance.interceptors.response.use(function (response) {
 function rightsget(url,params){
   return instance.get(url,params)
 }
-export { rightsget }
-
-
-
-
-
-
-
-
-
-
-export {}
+function rolesget(url,params){
+  return instance.get(url,params)
+}
+export { rightsget , rolesget }

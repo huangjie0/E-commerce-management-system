@@ -23,7 +23,10 @@ instance.interceptors.response.use(function (response) {
     return Promise.reject(error);
 });
 //roles函数
-function
+function rightsget(url,params){
+  return instance.get(url,params)
+}
+export { rightsget }
 
 
 

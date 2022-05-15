@@ -114,14 +114,25 @@
     title="分配角色"
     :visible.sync="setRoleDialogVisible"
     width="50%"
+    @close="setRoleDialogClose()"
     >
     <div>
         <p>当前的用户:{{userinfo.username}}</p>
         <p>当前的角色:{{userinfo.role_name}}</p>
+        <p>分配新角色: 
+            <el-select v-model="selectedRoleId" placeholder="请选择">
+                <el-option
+                v-for="item in rolesList"
+                :key="item.id"
+                :label="item.roleName"
+                :value="item.id">
+                </el-option>
+            </el-select>
+        </p>
     </div>
     <span slot="footer" class="dialog-footer">
         <el-button @click="setRoleDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="setRoleDialogVisible = false">确 定</el-button>
+        <el-button type="primary" @click="saveRoleInfo()">确 定</el-button>
     </span>
     </el-dialog>
   </div>
@@ -151,6 +162,7 @@ export default {
             cb(new Error('请输入合法的手机号'))
         }
         return {
+            selectedRoleId:'',
             //控制角色对话框的显示与隐藏
             setRoleDialogVisible:false,
             //控制修改用户的显示与隐藏
@@ -206,7 +218,9 @@ export default {
             //查询到的用户对象
             editForm:{},
             //需要被分配角色的用户信息
-            userinfo:{}
+            userinfo:{},
+            //所有角色的数据列表
+            rolesList:[]
         }
     },
     created(){
@@ -217,6 +231,25 @@ export default {
         })
     },
     methods:{
+        setRoleDialogClose(){
+            this.selectedRoleId='',
+            this.userinfo={}
+        },
+        //点击按钮分配角色
+        saveRoleInfo(){
+            if(!this.selectedRoleId){
+                return this.$message.error('请选择要分配的角色')
+            }
+            userPut(`users/${this.userinfo.id}/role`,{rid:this.selectedRoleId}).then(res=>{
+                console.log(res)
+                if(res.data.meta.status!==200){
+                    return this.$message.error('更新角色失败')
+                }
+                this.$message.success('更新角色成功');
+                this.getUserList()
+                this.setRoleDialogVisible=false
+            })
+        },
         //展示编辑对话框
         showEditDialog(id){
             this.editDialogVisible=true
@@ -249,8 +282,14 @@ export default {
         showDistributionDialog(userinfo){
             this.userinfo=userinfo
             //打开对话框
-            this.setRoleDialogVisible=true
+            userGet('roles').then(res=>{
+                if(res.data.meta.status!==200){
+                    return this.$message.error('获取角色列表失败')
+                }
+                this.rolesList = res.data.data
 
+            })
+            this.setRoleDialogVisible=true
         },
         //监听对话框关闭重置效果
         addDialogClosed(){

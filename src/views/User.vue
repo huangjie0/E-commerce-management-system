@@ -36,7 +36,7 @@
                     <el-button type="primary" size="mini" icon="el-icon-edit" @click="showEditDialog(scope.row.id)"></el-button>
                     <el-button type="danger" size="mini" icon="el-icon-delete" @click="showDeleteDialog(scope.row.id)"></el-button>
                     <el-tooltip  effect="dark" content="分配角色" placement="top" :enterable='false'>
-                         <el-button type="warning" size="mini" icon="el-icon-setting" @click="showDistributionDialog()"></el-button>
+                         <el-button type="warning" size="mini" icon="el-icon-setting" @click="showDistributionDialog(scope.row)"></el-button>
                     </el-tooltip>
                 </template>
             </el-table-column>
@@ -110,6 +110,20 @@
             <el-button type="primary" @click="editUserInfo">确 定</el-button>
         </span>
     </el-dialog>
+    <el-dialog
+    title="分配角色"
+    :visible.sync="setRoleDialogVisible"
+    width="50%"
+    >
+    <div>
+        <p>当前的用户:{{userinfo.username}}</p>
+        <p>当前的角色:{{userinfo.role_name}}</p>
+    </div>
+    <span slot="footer" class="dialog-footer">
+        <el-button @click="setRoleDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="setRoleDialogVisible = false">确 定</el-button>
+    </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -137,6 +151,8 @@ export default {
             cb(new Error('请输入合法的手机号'))
         }
         return {
+            //控制角色对话框的显示与隐藏
+            setRoleDialogVisible:false,
             //控制修改用户的显示与隐藏
             editDialogVisible:false,
             queryInfo:{
@@ -188,7 +204,9 @@ export default {
                 ]
             },
             //查询到的用户对象
-            editForm:{}
+            editForm:{},
+            //需要被分配角色的用户信息
+            userinfo:{}
         }
     },
     created(){
@@ -228,8 +246,11 @@ export default {
             })
         },
         //展示设置对话框
-        showDistributionDialog(){
-            console.log('11111')
+        showDistributionDialog(userinfo){
+            this.userinfo=userinfo
+            //打开对话框
+            this.setRoleDialogVisible=true
+
         },
         //监听对话框关闭重置效果
         addDialogClosed(){

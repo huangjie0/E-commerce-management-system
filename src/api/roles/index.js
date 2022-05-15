@@ -32,4 +32,7 @@ function rolesget(url,params){
 function rolesdelete(url,data){
   return instance.delete(url,data)
 }
-export { rightsget , rolesget , rolesdelete}
+function rolespost(url,data){
+  return instance.post(url,data)
+}
+export { rightsget , rolesget , rolesdelete , rolespost}

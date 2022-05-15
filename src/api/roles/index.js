@@ -29,4 +29,7 @@ function rightsget(url,params){
 function rolesget(url,params){
   return instance.get(url,params)
 }
-export { rightsget , rolesget }
+function rolesdelete(url,data){
+  return instance.delete(url,data)
+}
+export { rightsget , rolesget , rolesdelete}

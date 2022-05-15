@@ -41,11 +41,9 @@ export default {
     created(){
       rightsget(`rights/list`).then(res=>{
         if(res.data.meta.status!==200) return this.$message.error('获取权限列表失败')
-        console.log(res)
         this.rightsList = res.data.data
       })
     },
-
 }
 </script>
 

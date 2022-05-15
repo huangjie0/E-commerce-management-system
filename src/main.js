@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router/index'
 import './assets/css/common.css'
+import TreeTable from 'vue-table-with-tree-grid'
 //导入ui组件库，按需引入
 import {Form,FormItem,Input,Button,Message,Container,Aside,Main,Header,
 Menu,Submenu,MenuItem,Breadcrumb,BreadcrumbItem,Card,Row,Col,Table,
@@ -9,6 +10,7 @@ TableColumn,Switch,Tooltip,Pagination,Dialog,MessageBox,Tag,Tree,Select,Option} 
 import 'element-ui/lib/theme-chalk/index.css';
 
 Vue.config.productionTip = false
+Vue.component('tree-table',TreeTable);
 //注册组件
 Vue.use(Option)
 Vue.use(Select)

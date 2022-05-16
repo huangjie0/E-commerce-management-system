@@ -151,12 +151,13 @@ export default {
                 }
                 //获取到的权限数据保存到data中
                 this.rightList = res.data.data
+                //获取三级节点的id
+                this.getLeafKeys(role, this.defKeys)
+                
+                this.$nextTick(()=>{
+                    this.setRightDialogVisible=true
+                })
             })
-            //获取三级节点的id
-            this.getLeafKeys(role, this.defKeys)
-
-
-            this.setRightDialogVisible=true
         },
         async removeRightById(role,rightId){
         //弹框提示用户是否删除

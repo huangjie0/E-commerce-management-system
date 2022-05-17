@@ -52,9 +52,9 @@
     :visible.sync="addCateDialogVisible"
     width="50%">
     <!-- form表单验证 -->
-    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-        <el-form-item label="活动名称" prop="name">
-            <el-input v-model="ruleForm.name"></el-input>
+    <el-form :model="addCateForm" :rules="addCateFormRules" ref="addCateFormRef" label-width="100px">
+        <el-form-item label="分类名称:" prop="cat_name">
+            <el-input v-model="addCateForm.cat_name"></el-input>
         </el-form-item>
     </el-form>
     <!-- form表单验证结束 -->
@@ -117,6 +117,11 @@ export default {
     },
     data() {
         return {
+            //添加分类的表单数据对象
+            addCateForm:{
+                //将要添加的分类名称
+                cat_name:"",
+            },
             //控制添加对话框的显示与隐藏
             addCateDialogVisible:false,
             //商品分类的数据，默认是空

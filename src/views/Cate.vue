@@ -56,6 +56,16 @@
         <el-form-item label="分类名称:" prop="cat_name">
             <el-input v-model="addCateForm.cat_name"></el-input>
         </el-form-item>
+         <el-form-item label="父级分类:">
+             <el-cascader
+            v-model="selectedKeys"
+            :options=" parentCateList"
+            :props="cascaderProps"
+            @change="handleChange"
+            clearable 
+            >
+            </el-cascader>
+        </el-form-item>
     </el-form>
     <!-- form表单验证结束 -->
     <span slot="footer" class="dialog-footer">
@@ -82,8 +92,13 @@ export default {
         })
     },
     methods:{
+        //级联选择发生变化所触发的函数
+        handleChange(){
+            console.log(this.selectedKeys);
+        },
         //添加按钮的点击事件
         showAddCateDialog(){
+            this.getParentCateList()
             this.addCateDialogVisible=!this.addCateDialogVisible
         },
         // 监听pagesize事件
@@ -113,14 +128,45 @@ export default {
                 //为总数条数赋值
                 this.total = res.data.data.total
             })
+        },
+        getParentCateList(){
+            categet('categories',{params:{
+                type:2
+            }}).then(res=>{
+                if(res.data.meta.status!==200) this.$message.error('获取二级菜单失败')
+                this.$message.success('获取二级菜单成功!')
+                this.parentCateList = res.data.data
+            })
         }
     },
     data() {
         return {
+            //选中的父级分类id数组
+            selectedKeys:[],
+            cascaderProps:{
+                value:'cat_id',
+                label:'cat_name',
+                children:'children'
+            },
+            parentCateList:[],
             //添加分类的表单数据对象
             addCateForm:{
                 //将要添加的分类名称
                 cat_name:"",
+                //添加父级id，默认的等级是一级id
+                cat_pid:0,
+                //添加分类层级,默认是一级分类 
+                cat_level:0, 
+            },
+            //定义添加表单验证规则的对象
+            addCateFormRules:{
+               cat_name:[
+                   {
+                       required:true,
+                       message:'请输入分类名称',
+                       trigger:'blur'
+                   }
+               ]
             },
             //控制添加对话框的显示与隐藏
             addCateDialogVisible:false,
@@ -159,4 +205,7 @@ export default {
 </script>
 
 <style scoped lang='less'> 
+.el-cascader{
+    width: 100%;
+}
 </style>

@@ -10,8 +10,8 @@
     <!-- 卡片视图区域 -->
     <el-card>
         <el-row>
-            <el-col>s
-                <el-button type="primary">
+            <el-col>
+                <el-button type="primary" @click="showAddCateDialog()">
                     添加分类
                 </el-button>
             </el-col>
@@ -32,7 +32,6 @@
             <!-- 操作 -->
             <template slot="opt" slot-scope="scope">
               <el-button size="mini" type="primary" icon="el-icon-edit">编辑</el-button>
-              <el-button size="mini" type="success" icon="el-icon-search">搜索</el-button>
               <el-button size="mini" type="danger" icon="el-icon-delete">删除</el-button>
             </template>
         </tree-table>
@@ -47,6 +46,24 @@
         :total="total">
         </el-pagination>
     </el-card>
+    <!-- 添加分类的对话框 -->
+    <el-dialog
+    title="添加分类"
+    :visible.sync="addCateDialogVisible"
+    width="50%">
+    <!-- form表单验证 -->
+    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+        <el-form-item label="活动名称" prop="name">
+            <el-input v-model="ruleForm.name"></el-input>
+        </el-form-item>
+    </el-form>
+    <!-- form表单验证结束 -->
+    <span slot="footer" class="dialog-footer">
+        <el-button @click="addCateDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="addCateDialogVisible = false">确 定</el-button>
+    </span>
+    </el-dialog>
+     <!-- 添加分类的对话框结束 -->
   </div>
 </template>
 
@@ -65,6 +82,10 @@ export default {
         })
     },
     methods:{
+        //添加按钮的点击事件
+        showAddCateDialog(){
+            this.addCateDialogVisible=!this.addCateDialogVisible
+        },
         // 监听pagesize事件
         handleSizeChange(newSize){
             //将最新数据赋值给pagesize属性中
@@ -96,6 +117,8 @@ export default {
     },
     data() {
         return {
+            //控制添加对话框的显示与隐藏
+            addCateDialogVisible:false,
             //商品分类的数据，默认是空
             cateList:[],
             //查询条件
@@ -120,9 +143,9 @@ export default {
                 template:'order'
                 },
                 {
-                    label:'操作',
-                    type:'template',
-                    template:'opt'
+                label:'操作',
+                type:'template',
+                template:'opt'
                 }
             ]
         }

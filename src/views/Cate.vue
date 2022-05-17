@@ -10,7 +10,7 @@
     <!-- 卡片视图区域 -->
     <el-card>
         <el-row>
-            <el-col>
+            <el-col>s
                 <el-button type="primary">
                     添加分类
                 </el-button>
@@ -23,8 +23,29 @@
                 <i class="el-icon-success" v-if="scope.row.cat_deleted==false" style="color:lightgreen;"></i>
                 <i class="el-icon-error" v-else style="color:red;"></i>
             </template>
+            <!-- 排序 -->
+            <template slot="order" slot-scope="scope">
+                <el-tag size="mini" v-if="scope.row.cat_level==0">一级</el-tag>
+                <el-tag type="success" size="mini" v-else-if="scope.row.cat_level==1">二级</el-tag>
+                <el-tag type="warning" size="mini" v-else>三级</el-tag>
+            </template>
+            <!-- 操作 -->
+            <template slot="opt" slot-scope="scope">
+              <el-button size="mini" type="primary" icon="el-icon-edit">编辑</el-button>
+              <el-button size="mini" type="success" icon="el-icon-search">搜索</el-button>
+              <el-button size="mini" type="danger" icon="el-icon-delete">删除</el-button>
+            </template>
         </tree-table>
         <!-- 分页区域 -->
+         <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="queryInfo.pagenum"
+        :page-sizes="[3, 5, 10]"
+        :page-size="queryInfo.pagesize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total">
+        </el-pagination>
     </el-card>
   </div>
 </template>
@@ -42,6 +63,36 @@ export default {
             //为总数条数赋值
             this.total = res.data.data.total
         })
+    },
+    methods:{
+        // 监听pagesize事件
+        handleSizeChange(newSize){
+            //将最新数据赋值给pagesize属性中
+            this.queryInfo.pagesize = newSize
+            //重新发起get请求
+            categet('categories',{params:this.queryInfo}).then(res=>{
+                if(res.data.meta.status!==200){
+                    return this.$message('获取商品分类失败')
+                }
+                this.cateList = res.data.data.result
+                //为总数条数赋值
+                this.total = res.data.data.total
+            })
+        },
+        //监听pagenum改变的回调函数
+        handleCurrentChange(newPage){
+            //重新赋值给pagenum里面的值
+            this.queryInfo.pagenum=newPage
+            //再次发请求给服务器重新渲染页面
+            categet('categories',{params:this.queryInfo}).then(res=>{
+                if(res.data.meta.status!==200){
+                    return this.$message('获取商品分类失败')
+                }
+                this.cateList = res.data.data.result
+                //为总数条数赋值
+                this.total = res.data.data.total
+            })
+        }
     },
     data() {
         return {
@@ -62,6 +113,16 @@ export default {
                 //将当前列定义为模板列
                 type:'template',
                 template:'isok',
+                },
+                {
+                label:"排序",
+                type:'template',
+                template:'order'
+                },
+                {
+                    label:'操作',
+                    type:'template',
+                    template:'opt'
                 }
             ]
         }
